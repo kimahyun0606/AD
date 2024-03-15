@@ -19,7 +19,17 @@ df = df.iloc[:, 1:]
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/dcb82998-7a91-4cc8-beb0-c09d2569a8bc)
 
 
+# 데이터 프레임 구성
+df = pd.DataFrame(df)
+df.head()
+![image](https://github.com/kimahyun0606/AD/assets/162280996/687303db-7cd1-48d6-a881-8eac672cfc56)
+(이후 피처 특정하면)
+df = df[['AD','Fe','Cu','Pb','Na_Mg']]
+df.head()
+![image](https://github.com/kimahyun0606/AD/assets/162280996/62d9515f-fb36-44d3-94cd-785fc36f194b)
+
 **데이터 상관관계 분석(전처리 과정)**
+
 전처리과정은 데이터가 목적에 맞게 최적화되어 있지 않기 때문에 수집데이터를 그대로 사용할 경우 잘못된 분석결과를 도출하거나 분석의 성능이 떨어질 수 있다. 데이터 전처리 과정은 매우 중요하게 다루어 지고 있다. 
 
 
@@ -27,7 +37,6 @@ df = df.iloc[:, 1:]
 > 변수들 간의 영향력을 조정하기 위해 정규화와 표준화를 사용한다. 데이터 변수들 간의 범위가 다를 경우 분석의 성능이 하락할 수 있기 때문이다. 
 > 전체 데이터 중 분석 영향력이 떨어지는 변수를 제거하여 분석의 성능을 높이는 전처리 과정인 '피처 선택'과 수집 데이터에 존재하는 변수들 간의 연산을 통해 파생 변수를 생성하는 것을 '피처 엔지니어링'과성을 통해 모델의 복잡성을 줄이고 효율성을 높이고, 모델의 예측 성능을 향상시킬수 있다.
 
-```
 library(readxl)
 library(ggplot2)
 library(dplyr)
@@ -38,20 +47,19 @@ AD <- AD[, -1]
 head(AD)
 install.packages("ltm")
 library(ltm)
-```
+
 
 ### correlations test 반복문
 ```
 cor_results <- data.frame(Variable1 = character(), Variable2 = character(), Correlation = numeric(), P_Value = numeric(), stringsAsFactors = FALSE)
 ```
 
-### for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
+> ### for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
 ```
 for (i in 2:30) { 
   cor_test <- cor.test(AD[, i], AD$AD)
-```  
- 
-### 결과를 데이터프레임에 추가
+```   
+>> ### 결과를 데이터프레임에 추가
 ```
   cor_results <- rbind(cor_results, data.frame(
     Variable1 = "AD",
@@ -59,10 +67,10 @@ for (i in 2:30) {
     Correlation = cor_test$estimate,
     P_Value = cor_test$p.value
   ))
-}
+ }
 ```
 
-# 결과 데이터프레임 출력
+### 결과 데이터프레임 출력
 ```
 print(cor_results)
 cor_results
@@ -70,8 +78,10 @@ cor_results
 write.csv(cor_results, file ="cor_results.csv")
 ```
 
+=========
 
-# correlations test (MetRate제거)
+
+### correlations test (MetRate제거)
 ```
 AD_1 <- AD %>% select(-MetRate)
 head(AD_1)
@@ -79,13 +89,13 @@ head(AD_1)
 cor_results_1 <- data.frame(Variable1 = character(), Variable2 = character(), Correlation = numeric(), P_Value = numeric(), stringsAsFactors = FALSE)
 ```
 
-# for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
+> ### for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
 ```
 for (i in 2:29) { 
   cor_test <- cor.test(AD_1[, i], AD_1$AD)
 ```
 
-  # 결과를 데이터프레임에 추가
+>> ### 결과를 데이터프레임에 추가
 ```
   cor_results_1 <- rbind(cor_results_1, data.frame(
     Variable1 = "AD",
@@ -96,32 +106,32 @@ for (i in 2:29) {
 }
 ```
 
-# 결과 데이터프레임 출력
+### 결과 데이터프레임 출력
 ```
 print(cor_results_1)
 cor_results_1
 
 write.csv(cor_results_1, file ="cor_results_1.csv")
-
-
+```
+=======
 
 
 t_test_results <- data.frame(Variable1 = character(), Variable2 = character(), statistic = numeric(), P_Value = numeric())
-```
 
-# t- test 반복문
+### t- test 반복문
 ```
 AD_1 <- AD %>% filter(AD ==1)
 summary(AD_1)
 
 AD_0 <- AD %>% filter(AD==0)
 summary(AD_0)
-
-for (i in 2:30) { 
+```
+```
+> for (i in 2:30) { 
   t_test <- t.test(AD_1[, i], AD_0[, i])
 ```
   
-# 결과를 데이터프레임에 추가
+>> ### 결과를 데이터프레임에 추가
 ```
   t_test_results <- rbind(t_test_results, data.frame(
     Variable1 = "AD",
@@ -133,149 +143,12 @@ for (i in 2:30) {
 }
 ```
 
-# 결과 데이터프레임 출력
+
 ```
-print(cor_results)
-cor_results
-
-write.csv(cor_results, file ="cor_results.csv")
-```
-
-
-# correlations test (MetRate제거)
-```
-AD_1 <- AD %>% select(-MetRate)
-head(AD_1)
-
-cor_results_1 <- data.frame(Variable1 = character(), Variable2 = character(), Correlation = numeric(), P_Value = numeric(), stringsAsFactors = FALSE)
-```
-
-# for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
-```
-for (i in 2:29) { 
-  cor_test <- cor.test(AD_1[, i], AD_1$AD)
-```
-  
-  # 결과를 데이터프레임에 추가
-```
-  cor_results_1 <- rbind(cor_results_1, data.frame(
-    Variable1 = "AD",
-    Variable2 = names(AD_1)[i],
-    Correlation = cor_test$estimate,
-    P_Value = cor_test$p.value
-  ))
-}
-```
-
-# 결과 데이터프레임 출력
-```
-print(cor_results_1)
-cor_results_1
-
-write.csv(cor_results_1, file ="cor_results_1.csv")
-
-
-
-
-t_test_results <- data.frame(Variable1 = character(), Variable2 = character(), statistic = numeric(), P_Value = numeric())
-```
-
-# t- test 반복문
-```
-AD_1 <- AD %>% filter(AD ==1)
-summary(AD_1)
-
-AD_0 <- AD %>% filter(AD==0)
-summary(AD_0)
-
-for (i in 2:30) { 
-  t_test <- t.test(AD_1[, i], AD_0[, i])
-```
-  
-  # 결과를 데이터프레임에 추가
-```
-  t_test_results <- rbind(t_test_results, data.frame(
-    Variable1 = "AD",
-    Variable2 = "non-AD",
-    variable3 = names(AD_1)[i],
-    t_value = t_test$statistic,
-    P_Value = t_test$p.value
-  ))
-}
-```
-
-# 결과 데이터프레임 출력
-```
-print(cor_results)
-cor_results
-
-write.csv(cor_results, file ="cor_results.csv")
-```
-
-# correlations test (MetRate제거)
-```
-AD_1 <- AD %>% select(-MetRate)
-head(AD_1)
-
-cor_results_1 <- data.frame(Variable1 = character(), Variable2 = character(), Correlation = numeric(), P_Value = numeric(), stringsAsFactors = FALSE)
-```
-
-# for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
-```
-for (i in 2:29) { 
-  cor_test <- cor.test(AD_1[, i], AD_1$AD)
-```
-  
-  # 결과를 데이터프레임에 추가
-```
-  cor_results_1 <- rbind(cor_results_1, data.frame(
-    Variable1 = "AD",
-    Variable2 = names(AD_1)[i],
-    Correlation = cor_test$estimate,
-    P_Value = cor_test$p.value
-  ))
-}
-```
-
-# 결과 데이터프레임 출력
-```
-print(cor_results_1)
-cor_results_1
-
-write.csv(cor_results_1, file ="cor_results_1.csv")
-
-
-
-
-t_test_results <- data.frame(Variable1 = character(), Variable2 = character(), statistic = numeric(), P_Value = numeric())
-```
-
-# t- test 반복문
-```
-AD_1 <- AD %>% filter(AD ==1)
-summary(AD_1)
-
-AD_0 <- AD %>% filter(AD==0)
-summary(AD_0)
-
-for (i in 2:30) { 
-  t_test <- t.test(AD_1[, i], AD_0[, i])
-```
-  
-  # 결과를 데이터프레임에 추가
-```
-  t_test_results <- rbind(t_test_results, data.frame(
-    Variable1 = "AD",
-    Variable2 = "non-AD",
-    variable3 = names(AD_1)[i],
-    t_value = t_test$statistic,
-    P_Value = t_test$p.value
-  ))
-}
-
 t_test_results
 write.csv(t_test_results, file="t_test_results.csv")
 ```
+
 
 
 # 분석 모델링 선택
@@ -290,7 +163,7 @@ ann + MLPClassifier
 
 AD_ANN 5개 Fe, Cu, Pb, Na_Mg
 
-# 패키지 불러오기
+### 패키지 불러오기
 ```
 import numpy as np
 import pandas as pd
@@ -298,7 +171,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 ```
 
-# ADdata.csv불러오기
+### ADdata.csv불러오기
 ```
 df = pd.read_csv("normalized_AD.csv")
 df = df.iloc[:, 1:]
@@ -307,7 +180,7 @@ df = df.iloc[:, 1:]
 df = df[['AD','Fe','Cu','Pb','Na_Mg']]
 ```
 
-# 데이터 프레임 구성
+### 데이터 프레임 구성
 ```
 df = pd.DataFrame(df)
 df.head()
