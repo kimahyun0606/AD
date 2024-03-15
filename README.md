@@ -1,9 +1,26 @@
 **Description**
 머신러닝은 학습할 자료(데이터) 처리에 인간이 선 개입해 컴퓨터가 인식할 수 있게 한 후 학습하게 해서 모델을 만들어내는 것이다. 
 
-인공신경망(ANN, Artificial Neural Network)은 사람의 신경망의 원리와 구조를 모방하여 만든 기계학습 알고리즘즘
+인공신경망(ANN, Artificial Neural Network)은 사람의 신경망의 원리와 구조를 모방하여 만든 기계학습 알고리즘이다.
+
+머신러닝은
+1. 데이터 수집
+2. 데이터 전처리
+3. 분석 모델링을 통해 모델 selection
+4. 모델 fitting, training(split)
+5. 모델 평가 검증
+
+
+# 데이터 수집
+pd.read_csv로 AD data를 불러온다. 
+![image](https://github.com/kimahyun0606/AD/assets/162280996/dcb82998-7a91-4cc8-beb0-c09d2569a8bc)
+
 
 **데이터 상관관계 분석(전처리 과정)**
+전처리과정은 데이터가 목적에 맞게 최적화되어 있지 않기 때문에 수집데이터를 그대로 사용할 경우 잘못된 분석결과를 도출하거나 분석의 성능이 떨어질 수 있다. 데이터 전처리 과정은 매우 중요하게 다루어 지고 있다. 
+이 과정을 통해 값이 누락된 데이터 결측치와 일반적인 범위에서 벗어난 값 이상치를 제외하거나 적절히 수정하여 분석의 정확성을 높인다. 
+또한 변수들 간의 영향력을 조정하기 위해 정규화와 표준화를 사용한다. 데이터 변수들 간의 범위가 다를 경우 분석의 성능이 하락할 수 있기 때문이다. 
+또 전체 데이터 중 분석 영향력이 떨어지는 변수를 제거하여 분석의 성능을 높이는 전처리 과정인 '피처 선택'과 수집 데이터에 존재하는 변수들 간의 연산을 통해 파생 변수를 생성하는 것을 '피처 엔지니어링'과성을 통해 모델의 복잡성을 줄이고 효율성을 높이고, 모델의 예측 성능을 향상시킬수 있다.
 
 ```
 library(readxl)
@@ -18,18 +35,18 @@ install.packages("ltm")
 library(ltm)
 ```
 
-# correlations test 반복문
+### correlations test 반복문
 ```
 cor_results <- data.frame(Variable1 = character(), Variable2 = character(), Correlation = numeric(), P_Value = numeric(), stringsAsFactors = FALSE)
 ```
 
-# for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
+### for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
 ```
 for (i in 2:30) { 
   cor_test <- cor.test(AD[, i], AD$AD)
 ```  
  
- # 결과를 데이터프레임에 추가
+### 결과를 데이터프레임에 추가
 ```
   cor_results <- rbind(cor_results, data.frame(
     Variable1 = "AD",
@@ -256,8 +273,12 @@ write.csv(t_test_results, file="t_test_results.csv")
 ```
 
 
-
-
+# 모델링 분석
+![image](https://github.com/kimahyun0606/AD/assets/162280996/d04f82b2-f314-4a02-b063-bdd72278a108)
+5개 모델을 생성하였다. 
+5개 데이터 처리
+from sklearn.model_selection import GridSearchCV
+ann + MLPClassifier
 
 
 AD_ANN 5개 Fe, Cu, Pb, Na_Mg
