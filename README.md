@@ -1,10 +1,11 @@
 **Description**
+
 머신러닝은 학습할 자료(데이터) 처리에 인간이 선 개입해 컴퓨터가 인식할 수 있게 한 후 학습하게 해서 모델을 만들어내는 것이다. 
 
 1. 데이터 수집
 2. 데이터 전처리
 3. 분석 모델링을 통해 모델 selection
-4. 모델 fitting, training(split)
+4. 모델 training (split)
 5. 모델 평가 검증
 
 
@@ -22,35 +23,35 @@ df = df.iloc[:, 1:]
 df = pd.DataFrame(df)
 df.head()
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/687303db-7cd1-48d6-a881-8eac672cfc56)
-(이후 피처 특정하면)
+
+
+(나중에 피처 특정하면 나오는 데이터 프레임 구성)   
 df = df[['AD','Fe','Cu','Pb','Na_Mg']]
 df.head()
+
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/62d9515f-fb36-44d3-94cd-785fc36f194b)
 
 # 데이터 상관관계 분석(전처리 과정)
 
 전처리과정은 데이터가 목적에 맞게 최적화되어 있지 않기 때문에 수집데이터를 그대로 사용할 경우 잘못된 분석결과를 도출하거나 분석의 성능이 떨어질 수 있다. 데이터 전처리 과정은 매우 중요하게 다루어 지고 있다. 
 
+> 이 과정을 통해 값이 누락된 데이터 결측치와 일반적인 범위에서 벗어난 값 이상치를 제외하거나 적절히 수정하여 분석의 정확성을 높인다.    
 
-> 이 과정을 통해 값이 누락된 데이터 결측치와 일반적인 범위에서 벗어난 값 이상치를 제외하거나 적절히 수정하여 분석의 정확성을 높인다. 
-> 변수들 간의 영향력을 조정하기 위해 정규화와 표준화를 사용한다. 데이터 변수들 간의 범위가 다를 경우 분석의 성능이 하락할 수 있기 때문이다. 
-> 전체 데이터 중 분석 영향력이 떨어지는 변수를 제거하여 분석의 성능을 높이는 전처리 과정인 '피처 선택'과 수집 데이터에 존재하는 변수들 간의 연산을 통해 파생 변수를 생성하는 것을 '피처 엔지니어링'과성을 통해 모델의 복잡성을 줄이고 효율성을 높이고, 모델의 예측 성능을 향상시킬수 있다.
+> 변수들 간의 영향력을 조정하기 위해 정규화와 표준화를 사용한다. 데이터 변수들 간의 범위가 다를 경우 분석의 성능이 하락할 수 있기 때문이다.    
 
-library(readxl)
-library(ggplot2)
-library(dplyr)
-library(rlang)
+> 전체 데이터 중 분석 영향력이 떨어지는 변수를 제거하여 분석의 성능을 높이는 전처리 과정인 '피처 선택'과 수집 데이터에 존재하는 변수들 간의 연산을 통해 파생 변수를 생성하는 것을 '피처 엔지니어링'과성을 통해 모델의 복잡성을 줄이고 효율성을 높이고, 모델의 예측 성능을 향상시킬수 있다.   
 
-AD <- read.csv("AD.csv")
-AD <- AD[, -1]
-head(AD)
-install.packages("ltm")
-library(ltm)
-ad![image](https://github.com/kimahyun0606/AD/assets/162280996/b5b054e5-bd1f-459d-8abe-4bd6dde05a88)
-ad1![image](https://github.com/kimahyun0606/AD/assets/162280996/e43732e8-19de-493d-984b-d912d92716a1)
-ad0
-![image](https://github.com/kimahyun0606/AD/assets/162280996/d846a4f8-1f68-4d87-b3d2-d6f12f8dd754)
+library(readxl)   
+library(ggplot2)   
+library(dplyr)   
+library(rlang)   
 
+AD <- read.csv("AD.csv")   
+AD <- AD[, -1]   
+head(AD)   
+install.packages("ltm")   
+library(ltm)   
+![image](https://github.com/kimahyun0606/AD/assets/162280996/b5b054e5-bd1f-459d-8abe-4bd6dde05a88)
 
 
 ### correlations test 반복문
@@ -75,6 +76,7 @@ for (i in 2:30) {
  }
 ```
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/d9f1283d-7629-444d-9904-98a8f7850358)
+
 ### 결과 데이터프레임 출력
 ```
 print(cor_results)
@@ -112,6 +114,7 @@ for (i in 2:29) {
 }
 ```
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/6be6b23b-1300-4094-83c7-68dd5db700f4)
+
 ### 결과 데이터프레임 출력
 ```
 print(cor_results_1)
@@ -136,9 +139,6 @@ summary(AD_0)
 > for (i in 2:30) { 
   t_test <- t.test(AD_1[, i], AD_0[, i])
 ```
-  ![image](https://github.com/kimahyun0606/AD/assets/162280996/272c9bd6-d63a-46e6-94bf-c00a4f812df6)
-![image](https://github.com/kimahyun0606/AD/assets/162280996/dba2473d-afca-481c-af63-3357ae36cb8c)
-![image](https://github.com/kimahyun0606/AD/assets/162280996/d90023b5-3110-4f6c-8327-dbfc7ff48133)
 
 >> ### 결과를 데이터프레임에 추가
 ```
@@ -151,14 +151,19 @@ summary(AD_0)
   ))
 }
 ```
-![image](https://github.com/kimahyun0606/AD/assets/162280996/5283da6c-bb4f-49eb-88e8-19268692769b)
+![image](https://github.com/kimahyun0606/AD/assets/162280996/d90023b5-3110-4f6c-8327-dbfc7ff48133)
 
 ```
 t_test_results
 write.csv(t_test_results, file="t_test_results.csv")
 ```
+![image](https://github.com/kimahyun0606/AD/assets/162280996/272c9bd6-d63a-46e6-94bf-c00a4f812df6)
+![image](https://github.com/kimahyun0606/AD/assets/162280996/dba2473d-afca-481c-af63-3357ae36cb8c)
 
 
+#R프로그램으로 돌려 나온 일련의 Data 
+![image](https://github.com/kimahyun0606/AD/assets/162280996/5283da6c-bb4f-49eb-88e8-19268692769b)
+![image](https://github.com/kimahyun0606/AD/assets/162280996/d846a4f8-1f68-4d87-b3d2-d6f12f8dd754)
 
 
 # 분석 모델링 선택
