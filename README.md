@@ -308,7 +308,8 @@ print(classification_report(y_test,y_pred))
 ```
 
 # 데이터 분석 결과 검증
-
+#'함수이름'.predict_proba('X test 데이터) : roc auc score를 구할때 사용
+from sklearn.metrics import roc_auc_score >>>roc_auc_score(Y test 데이터, Y 예측 데이터)
 ```
 from sklearn.metrics import roc_curve, roc_auc_score, auc
 from sklearn.preprocessing import label_binarize
@@ -343,7 +344,7 @@ plt.show()
 ```
 결과 : ![image](https://github.com/kimahyun0606/AD/assets/162280996/e709dd36-87ad-4d2d-ae27-895836f7ed9d)
 
-#'함수이름'.predict_proba('X test 데이터) : roc auc score를 구할때
+
 ```
 print("roc_auc_score:",roc_auc_score(y_test,y_pred, multi_class='raise'))
 ```
