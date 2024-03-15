@@ -1,8 +1,6 @@
 **Description**
 머신러닝은 학습할 자료(데이터) 처리에 인간이 선 개입해 컴퓨터가 인식할 수 있게 한 후 학습하게 해서 모델을 만들어내는 것이다. 
 
-인공신경망(ANN, Artificial Neural Network)은 사람의 신경망의 원리와 구조를 모방하여 만든 기계학습 알고리즘이다.
-
 머신러닝은
 1. 데이터 수집
 2. 데이터 전처리
@@ -13,14 +11,21 @@
 
 # 데이터 수집
 pd.read_csv로 AD data를 불러온다. 
+```
+df = pd.read_csv("normalized_AD.csv)
+df = df.iloc[:, 1:]
+```
+
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/dcb82998-7a91-4cc8-beb0-c09d2569a8bc)
 
 
 **데이터 상관관계 분석(전처리 과정)**
 전처리과정은 데이터가 목적에 맞게 최적화되어 있지 않기 때문에 수집데이터를 그대로 사용할 경우 잘못된 분석결과를 도출하거나 분석의 성능이 떨어질 수 있다. 데이터 전처리 과정은 매우 중요하게 다루어 지고 있다. 
-이 과정을 통해 값이 누락된 데이터 결측치와 일반적인 범위에서 벗어난 값 이상치를 제외하거나 적절히 수정하여 분석의 정확성을 높인다. 
-또한 변수들 간의 영향력을 조정하기 위해 정규화와 표준화를 사용한다. 데이터 변수들 간의 범위가 다를 경우 분석의 성능이 하락할 수 있기 때문이다. 
-또 전체 데이터 중 분석 영향력이 떨어지는 변수를 제거하여 분석의 성능을 높이는 전처리 과정인 '피처 선택'과 수집 데이터에 존재하는 변수들 간의 연산을 통해 파생 변수를 생성하는 것을 '피처 엔지니어링'과성을 통해 모델의 복잡성을 줄이고 효율성을 높이고, 모델의 예측 성능을 향상시킬수 있다.
+
+
+> 이 과정을 통해 값이 누락된 데이터 결측치와 일반적인 범위에서 벗어난 값 이상치를 제외하거나 적절히 수정하여 분석의 정확성을 높인다. 
+> 변수들 간의 영향력을 조정하기 위해 정규화와 표준화를 사용한다. 데이터 변수들 간의 범위가 다를 경우 분석의 성능이 하락할 수 있기 때문이다. 
+> 전체 데이터 중 분석 영향력이 떨어지는 변수를 제거하여 분석의 성능을 높이는 전처리 과정인 '피처 선택'과 수집 데이터에 존재하는 변수들 간의 연산을 통해 파생 변수를 생성하는 것을 '피처 엔지니어링'과성을 통해 모델의 복잡성을 줄이고 효율성을 높이고, 모델의 예측 성능을 향상시킬수 있다.
 
 ```
 library(readxl)
@@ -273,7 +278,9 @@ write.csv(t_test_results, file="t_test_results.csv")
 ```
 
 
-# 모델링 분석
+# 분석 모델링 선택
+분석모델링은 회귀 분석 모델링(column 묶기 > 원핫/라벨인코더 > train_test_split > Stnadard/MinMaxscaler > 분석)
+분류 분석 모델링(column 묶기 > 원핫/라벨인코더 > train_test_split > Standard/MinMaxScaler > 분)
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/d04f82b2-f314-4a02-b063-bdd72278a108)
 5개 모델을 생성하였다. 
 5개 데이터 처리
@@ -300,7 +307,7 @@ df = df.iloc[:, 1:]
 df = df[['AD','Fe','Cu','Pb','Na_Mg']]
 ```
 
-#데이터 프레임 구성
+# 데이터 프레임 구성
 ```
 df = pd.DataFrame(df)
 df.head()
@@ -341,10 +348,49 @@ plt.rcParams['axes.unicode_minus'] = False
 X = df.loc[:,df.columns !='AD']
 y = df['AD']
 ```
+
+여기까지는 5개 모델링이 같다.  
+
+# 데이터 split 분리
+ANN
 ```
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.metrics import classification_report
 from sklearn.neural_network import MLPClassifier
+```
+
+LR
+```
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import classification_report
+import statsmodels.api as sm
+```
+
+NB
+```
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
+```
+
+RF
+```
+from sklearn.model_selection import GridSearchCV,train_test_split
+from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
+라이브러리 from sklearn.ensemble import RandomForestClassifier
+```
+
+SVM
+```
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import classification_report
+from sklearn.svm import SVC
 ```
 
 # 훈련데이터 평가 데이터 분리
@@ -356,7 +402,7 @@ x_train, x_test, y_train, y_test = train_test_split(X, y,
 print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 ```
 
-# 그리드 서치로 하이퍼 파라미터 조정
+# 그리드 서치로 하이퍼 파라미터 조정(검증)
 # ANN 적용하기 sklearn을 활용
 ```
 ann = MLPClassifier()
