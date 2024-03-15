@@ -189,19 +189,19 @@ df.head()
 df.info()
 ```
 
-# 데이터 개수 세기
+### 데이터 개수 세기
 ```
 print(df['AD'].value_counts())
 print(df['sex'].value_counts())
 ```
 
-# 칼럼 개수
+### 칼럼 개수
 ```
 print(df.columns)
 print(df.shape[1])
 ```
 
-# matplotlib 한글 폰트 추가하기
+### matplotlib 한글 폰트 추가하기
 ```
 import matplotlib.font_manager as fm
 
@@ -213,7 +213,7 @@ print(len(font_list))
 plt.rcParams["font.family"] = 'Malgun Gothic'
 ```
 
-# 음수 표시
+### 음수 표시
 ```
 plt.rcParams['axes.unicode_minus'] = False
 ```
@@ -222,9 +222,11 @@ X = df.loc[:,df.columns !='AD']
 y = df['AD']
 ```
 
-여기까지는 5개 모델링이 같다.  
+여기까지는 5개 모델링 코드가 같다.  
 
-# 데이터 split 분리
+### 데이터 split 분리
+#라이브러리 불러오기
+
 ANN
 ```
 from sklearn.model_selection import GridSearchCV, train_test_split
@@ -266,7 +268,8 @@ from sklearn.metrics import classification_report
 from sklearn.svm import SVC
 ```
 
-# 훈련데이터 평가 데이터 분리
+#훈련데이터 평가 데이터 분리
+> X, y로 일단 split 하고, train_test_split(X, y, stratify, test_size, random_state)
 ```
 x_train, x_test, y_train, y_test = train_test_split(X, y,
                                                     stratify=y,
@@ -275,8 +278,12 @@ x_train, x_test, y_train, y_test = train_test_split(X, y,
 print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 ```
 
-# 그리드 서치로 하이퍼 파라미터 조정(검증)
-# ANN 적용하기 sklearn을 활용
+#데이터스케일링?
+
+# 분석 모델 적용
+> 
+### 그리드 서치로 하이퍼 파라미터 조정(검증)
+### ANN 적용하기 sklearn을 활용
 ```
 ann = MLPClassifier()
 
@@ -292,12 +299,16 @@ grid.fit(x_train,y_train)
 
 print(grid.best_params_)
 ```
+
 ```
 ann = MLPClassifier(hidden_layer_sizes= 50,solver='sgd',activation='tanh')
 ann.fit(x_train,y_train)
-y_pred = ann.predict(x_test)
+**y_pred = ann.predict(x_test)**
 print(classification_report(y_test,y_pred))
 ```
+
+# 데이터 분석 결과 검증
+
 ```
 from sklearn.metrics import roc_curve, roc_auc_score, auc
 from sklearn.preprocessing import label_binarize
@@ -305,6 +316,7 @@ labels = [0,1]
 y_test =label_binarize(y_test,classes=labels)
 y_pred =label_binarize(y_pred,classes=labels)
 ```
+
 ```
 n_classes = 1
 fpr = dict()
@@ -314,6 +326,7 @@ for i in range(n_classes):
     fpr[i],tpr[i],_=roc_curve(y_test[:,i],y_pred[:,i])
     roc_auc[i] =auc(fpr[i],tpr[i])
 ```
+
 ```
 import matplotlib.pyplot as plt
 plt.figure(figsize=(20,5))
@@ -328,6 +341,10 @@ for idx, i in enumerate(range(n_classes)):
     plt.legend(loc="lower right")
 plt.show()
 ```
+결과 : ![image](https://github.com/kimahyun0606/AD/assets/162280996/e709dd36-87ad-4d2d-ae27-895836f7ed9d)
+
+#'함수이름'.predict_proba('X test 데이터) : roc auc score를 구할때
 ```
 print("roc_auc_score:",roc_auc_score(y_test,y_pred, multi_class='raise'))
 ```
+결과 : roc_auc_score: 0.5666666666666667
