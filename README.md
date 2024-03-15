@@ -46,12 +46,18 @@ AD <- AD[, -1]
 head(AD)
 install.packages("ltm")
 library(ltm)
+ad![image](https://github.com/kimahyun0606/AD/assets/162280996/b5b054e5-bd1f-459d-8abe-4bd6dde05a88)
+ad1![image](https://github.com/kimahyun0606/AD/assets/162280996/e43732e8-19de-493d-984b-d912d92716a1)
+ad0
+![image](https://github.com/kimahyun0606/AD/assets/162280996/d846a4f8-1f68-4d87-b3d2-d6f12f8dd754)
+
 
 
 ### correlations test 반복문
 ```
 cor_results <- data.frame(Variable1 = character(), Variable2 = character(), Correlation = numeric(), P_Value = numeric(), stringsAsFactors = FALSE)
 ```
+
 
 > ### for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
 ```
@@ -68,7 +74,7 @@ for (i in 2:30) {
   ))
  }
 ```
-
+![image](https://github.com/kimahyun0606/AD/assets/162280996/d9f1283d-7629-444d-9904-98a8f7850358)
 ### 결과 데이터프레임 출력
 ```
 print(cor_results)
@@ -88,6 +94,7 @@ head(AD_1)
 cor_results_1 <- data.frame(Variable1 = character(), Variable2 = character(), Correlation = numeric(), P_Value = numeric(), stringsAsFactors = FALSE)
 ```
 
+
 > ### for 루프로 상관관계 검정 수행 및 결과 데이터프레임에 추가
 ```
 for (i in 2:29) { 
@@ -104,7 +111,7 @@ for (i in 2:29) {
   ))
 }
 ```
-
+![image](https://github.com/kimahyun0606/AD/assets/162280996/6be6b23b-1300-4094-83c7-68dd5db700f4)
 ### 결과 데이터프레임 출력
 ```
 print(cor_results_1)
@@ -129,7 +136,10 @@ summary(AD_0)
 > for (i in 2:30) { 
   t_test <- t.test(AD_1[, i], AD_0[, i])
 ```
-  
+  ![image](https://github.com/kimahyun0606/AD/assets/162280996/272c9bd6-d63a-46e6-94bf-c00a4f812df6)
+![image](https://github.com/kimahyun0606/AD/assets/162280996/dba2473d-afca-481c-af63-3357ae36cb8c)
+![image](https://github.com/kimahyun0606/AD/assets/162280996/d90023b5-3110-4f6c-8327-dbfc7ff48133)
+
 >> ### 결과를 데이터프레임에 추가
 ```
   t_test_results <- rbind(t_test_results, data.frame(
@@ -141,12 +151,13 @@ summary(AD_0)
   ))
 }
 ```
-
+![image](https://github.com/kimahyun0606/AD/assets/162280996/5283da6c-bb4f-49eb-88e8-19268692769b)
 
 ```
 t_test_results
 write.csv(t_test_results, file="t_test_results.csv")
 ```
+
 
 
 
