@@ -365,8 +365,8 @@ plt.show()
 결과 : 
 > ANN ![image](https://github.com/kimahyun0606/AD/assets/162280996/e709dd36-87ad-4d2d-ae27-895836f7ed9d)    
 
-> LR ![image](https://github.com/kimahyun0606/AD/assets/162280996/870f78f8-fd3f-4ab9-89ec-721721191825)    
-
+> LR ![image](https://github.com/kimahyun0606/AD/assets/162280996/60089692-8fc9-4dec-9235-49cf42750652)    
+    
 > NB ![image](https://github.com/kimahyun0606/AD/assets/162280996/4b8b5238-e251-4b65-b920-d4f498119c99)
 
 > RF ![image](https://github.com/kimahyun0606/AD/assets/162280996/72b9496f-7e4d-4ba3-b3f2-88538029f81d)
@@ -378,7 +378,7 @@ print("roc_auc_score:",roc_auc_score(y_test,y_pred, multi_class='raise'))
 ```
 결과 : 
 > ANN roc_auc_score: 0.5666666666666667    
-> LB roc_auc_score: 0.7333333333333333
-> NB roc_auc_score: 0.44999999999999996
-> RF roc_auc_score: 0.7333333333333334
-> SVM roc_auc_score: 0.75
+> LB roc_auc_score: 0.7333333333333333    
+> NB roc_auc_score: 0.44999999999999996    
+> RF roc_auc_score: 0.7333333333333334    
+> SVM roc_auc_score: 0.75   
