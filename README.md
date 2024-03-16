@@ -363,8 +363,8 @@ for idx, i in enumerate(range(n_classes)):
 plt.show()
 ```
 결과 : 
-> ANN ![image](https://github.com/kimahyun0606/AD/assets/162280996/e709dd36-87ad-4d2d-ae27-895836f7ed9d)    
-
+> ANN ![image](https://github.com/kimahyun0606/AD/assets/162280996/dea92d47-1a09-4cb7-b5fb-53e852646498)    
+   
 > LR ![image](https://github.com/kimahyun0606/AD/assets/162280996/60089692-8fc9-4dec-9235-49cf42750652)    
     
 > NB ![image](https://github.com/kimahyun0606/AD/assets/162280996/4b8b5238-e251-4b65-b920-d4f498119c99)
