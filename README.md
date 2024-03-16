@@ -19,7 +19,7 @@ df = df.iloc[:, 1:]
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/dcb82998-7a91-4cc8-beb0-c09d2569a8bc)
 
 
-# 데이터 프레임 구성
+### 데이터 프레임 구성
 df = pd.DataFrame(df)
 df.head()
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/687303db-7cd1-48d6-a881-8eac672cfc56)
