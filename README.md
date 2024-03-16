@@ -161,16 +161,16 @@ write.csv(t_test_results, file="t_test_results.csv")
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/dba2473d-afca-481c-af63-3357ae36cb8c)
 
 
-#R프로그램으로 돌려 나온 일련의 Data 
+#R프로그램으로 돌려 나온 일련의 Data file
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/5283da6c-bb4f-49eb-88e8-19268692769b)
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/d846a4f8-1f68-4d87-b3d2-d6f12f8dd754)
 
 
 # 분석 모델링 선택
-분석모델링은 회귀 분석 모델링(column 묶기 > 원핫/라벨인코더 > train_test_split > Stnadard/MinMaxscaler > 분석)
+분석 모델링 중에서  
 분류 분석 모델링(column 묶기 > 원핫/라벨인코더 > train_test_split > Standard/MinMaxScaler > 분)
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/d04f82b2-f314-4a02-b063-bdd72278a108)
-5개 모델을 생성하였다. 
+ANN, LR, NB, RF, SVM 5개 모델을 생성하였다. 
 5개 데이터 처리
 from sklearn.model_selection import GridSearchCV
 ann + MLPClassifier
@@ -203,12 +203,14 @@ df.head()
 ```
 df.info()
 ```
+![image](https://github.com/kimahyun0606/AD/assets/162280996/6058e88d-c4bb-4f2d-a54d-afdce4653ba8)
 
 ### 데이터 개수 세기
 ```
 print(df['AD'].value_counts())
 print(df['sex'].value_counts())
 ```
+![image](https://github.com/kimahyun0606/AD/assets/162280996/a753b429-d091-44ab-96b2-4e0b1833ab47)
 
 ### 칼럼 개수
 ```
@@ -240,7 +242,8 @@ y = df['AD']
 여기까지는 5개 모델링 코드가 같다.  
 
 ### 데이터 split 분리
-#라이브러리 불러오기
+
+#라이브러리 패키지 불러오기
 
 ANN
 ```
@@ -272,7 +275,7 @@ RF
 from sklearn.model_selection import GridSearchCV,train_test_split
 from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
-라이브러리 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier
 ```
 
 SVM
@@ -292,12 +295,14 @@ x_train, x_test, y_train, y_test = train_test_split(X, y,
                                                     random_state=5) 
 print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 ```
+![image](https://github.com/kimahyun0606/AD/assets/162280996/439362a3-63af-461a-8e8c-72e3cf6654b0)
 
-#데이터스케일링?
 
 # 분석 모델 적용
 > 
 ### 그리드 서치로 하이퍼 파라미터 조정(검증)
+
+
 ### ANN 적용하기 sklearn을 활용
 ```
 ann = MLPClassifier()
@@ -357,10 +362,14 @@ for idx, i in enumerate(range(n_classes)):
     plt.legend(loc="lower right")
 plt.show()
 ```
-결과 : ![image](https://github.com/kimahyun0606/AD/assets/162280996/e709dd36-87ad-4d2d-ae27-895836f7ed9d)
+결과 : 
+> ANN ![image](https://github.com/kimahyun0606/AD/assets/162280996/e709dd36-87ad-4d2d-ae27-895836f7ed9d)    
 
+> LR ![image](https://github.com/kimahyun0606/AD/assets/162280996/870f78f8-fd3f-4ab9-89ec-721721191825)
 
 ```
 print("roc_auc_score:",roc_auc_score(y_test,y_pred, multi_class='raise'))
 ```
-결과 : roc_auc_score: 0.5666666666666667
+결과 : 
+> ANN roc_auc_score: 0.5666666666666667    
+> LB roc_auc_score: 0.7333333333333333
