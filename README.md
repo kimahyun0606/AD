@@ -320,6 +320,8 @@ ann.fit(x_train,y_train)
 y_pred = ann.predict(x_test)
 print(classification_report(y_test,y_pred))
 ```
+![image](https://github.com/kimahyun0606/AD/assets/162280996/eb7eb6d2-e796-4925-ae22-cc08f949abd1)
+
 
 > LR 적용하기 
 >> 그리드 서치로 최적의 하이퍼 파라미터 구하기
@@ -341,6 +343,8 @@ model.fit(x_train, y_train)
 y_pred =model.predict(x_test)   
 print(classification_report(y_test, y_pred))
 ```
+![image](https://github.com/kimahyun0606/AD/assets/162280996/ed4fafd8-0cca-45ea-9957-2e5fbeebacc2)
+
 
 > NB 적용하기
 >> nb = BernoulliNB
@@ -359,6 +363,8 @@ nb.fit(x_train,y_train)
 y_pred = nb.predict(x_test)
 print(classification_report(y_test,y_pred))
 ```
+![image](https://github.com/kimahyun0606/AD/assets/162280996/c570af94-a42f-479e-ab41-766c7930064d)
+
 
 > RF 적용하기
 >> GridSearch를 이용하여 하이퍼파라미터 조정하기(검증)
@@ -387,6 +393,8 @@ rf.fit(x_train,y_train)
 y_pred = rf.predict(x_test)
 print(classification_report(y_test,y_pred))
 ```
+![image](https://github.com/kimahyun0606/AD/assets/162280996/ba5acfe6-3951-4b08-a1c6-bfd99026d8e2)
+
 
 > SVM 적용하기
 >> 하이퍼 파라미터 조정 없이 진행
@@ -411,6 +419,7 @@ y_pred = svm.predict(x_test)
 
 print(classification_report(y_test,y_pred))
 ```
+![image](https://github.com/kimahyun0606/AD/assets/162280996/b36d51b2-0cfe-4e83-a7bc-e95cd2b1c883)
 
 # 데이터 분석 결과 검증
 #'함수이름'.predict_proba('X test 데이터) : roc auc score를 구할때 사용
