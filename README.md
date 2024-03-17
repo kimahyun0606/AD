@@ -168,15 +168,11 @@ write.csv(t_test_results, file="t_test_results.csv")
 
 # 분석 모델링 선택
 분석 모델링 중에서  
-분류 분석 모델링(column 묶기 > 원핫/라벨인코더 > train_test_split > Standard/MinMaxScaler > 분)
+분류 분석 모델링(column 묶기 > 원핫/라벨인코더 > train_test_split > Standard/MinMaxScaler > 분석)
 ![image](https://github.com/kimahyun0606/AD/assets/162280996/d04f82b2-f314-4a02-b063-bdd72278a108)
 ANN, LR, NB, RF, SVM 5개 모델을 생성하였다. 
-5개 데이터 처리
-from sklearn.model_selection import GridSearchCV
-ann + MLPClassifier
 
-
-AD_ANN 5개 Fe, Cu, Pb, Na_Mg
+피처 4개 Fe, Cu, Pb, Na_Mg
 
 ### 패키지 불러오기
 ```
@@ -299,11 +295,9 @@ print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 
 
 # 분석 모델 적용
-> 
-### 그리드 서치로 하이퍼 파라미터 조정(검증)
 
-
-### ANN 적용하기 sklearn을 활용
+> ANN 적용하기
+>> 그리드 서치로 하이퍼 파라미터 조정(검증)
 ```
 ann = MLPClassifier()
 
@@ -323,7 +317,98 @@ print(grid.best_params_)
 ```
 ann = MLPClassifier(hidden_layer_sizes= 50,solver='sgd',activation='tanh')
 ann.fit(x_train,y_train)
-**y_pred = ann.predict(x_test)**
+y_pred = ann.predict(x_test)
+print(classification_report(y_test,y_pred))
+```
+
+> LR 적용하기 
+>> 그리드 서치로 최적의 하이퍼 파라미터 구하기
+
+```
+LR =  LogisticRegression
+
+params = { 'penalty' : ['l2','l1'],
+         'C':[0.01, 0.1, 1, 5, 10]}
+
+grid = GridSearchCV(model, param_grid = params, verbose=1)
+# grid.fit(data_scaled, cancer.target)
+grid.fit(x_train, y_train)
+print(grid.best_params_)
+```
+```
+model = LogisticRegression  
+model.fit(x_train, y_train)   
+y_pred =model.predict(x_test)   
+print(classification_report(y_test, y_pred))
+```
+
+> NB 적용하기
+>> nb = BernoulliNB
+```
+nb = BernoulliNB()
+
+params = { 'alpha' :[1,10,50,100] }
+
+grid = GridSearchCV(nb, param_grid=params, verbose=1)
+grid.fit(x_train, y_train)
+print(grid.best_params_)
+```
+```
+nb = BernoulliNB(alpha=1)
+nb.fit(x_train,y_train)
+y_pred = nb.predict(x_test)
+print(classification_report(y_test,y_pred))
+```
+
+> RF 적용하기
+>> GridSearch를 이용하여 하이퍼파라미터 조정하기(검증)
+```
+rf = RandomForestClassifier()
+
+params = { 'n_estimators' : [ 20, 40, 60, 80, 100],
+           'max_depth':['None',4,8,12,16],
+            'criterion' :['gini','entropy'],
+           'min_samples_leaf' : [0, 2, 4, 6,8,10],
+           'min_samples_split' : [1, 5, 10, 15]
+            }
+
+# RandomForestClassifier 객체 생성 후 GridSearchCV 수행
+grid = GridSearchCV(rf, param_grid = params,verbose=1)
+grid.fit(x_train, y_train)
+print(grid.best_params_)
+```
+```
+rf = RandomForestClassifier(n_estimators=80, 
+                             criterion='entropy',
+                             max_depth =12,
+                             min_samples_leaf=6,
+                             min_samples_split =15)
+rf.fit(x_train,y_train)
+y_pred = rf.predict(x_test)
+print(classification_report(y_test,y_pred))
+```
+
+> SVM 적용하기
+>> 하이퍼 파라미터 조정 없이 진행
+```
+svm =SVC()
+
+params = {
+    'kernel':['linear', 'poly', 'rbf'],
+    'gamma':[0.00001,0.0001,0.001,0.01,0.1,1],
+    'C': [0.01,0.1,1,10,100,1000]
+}
+
+    
+grid =  GridSearchCV(svm,param_grid= params,verbose=1)
+grid.fit(x_train, y_train)
+print(grid.best_params_)
+```
+```
+svm =SVC(C=1, kernel = 'rbf', gamma=0.1)
+svm.fit(x_train, y_train)
+y_pred = svm.predict(x_test)
+
 print(classification_report(y_test,y_pred))
 ```
 
@@ -378,7 +463,7 @@ print("roc_auc_score:",roc_auc_score(y_test,y_pred, multi_class='raise'))
 ```
 결과 : 
 > ANN roc_auc_score: 0.5666666666666667    
-> LB roc_auc_score: 0.7333333333333333    
+> LR roc_auc_score: 0.7333333333333333    
 > NB roc_auc_score: 0.44999999999999996    
 > RF roc_auc_score: 0.7333333333333334    
 > SVM roc_auc_score: 0.75   
